@@ -1,0 +1,6 @@
+/.env
+/.env.dist
+/.php_cs.cache
+/bin/
+/symfony.lock
+/vendor/
