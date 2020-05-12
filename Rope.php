@@ -118,7 +118,14 @@ class Rope implements PluginInterface, EventSubscriberInterface
         $operation = $event->getOperation();
 
         if ($operation instanceof UninstallOperation) {
-            $recipeMeta = $this->recipeRepoManager->getRecipe(Utils::getPackage($operation), $operation->getJobType());
+            if ('klipper/rope' === $operation->getPackage()->getName()) {
+                $this->flexManipulator = null;
+                $this->recipeRepoManager = null;
+            }
+
+            $recipeMeta = null !== $this->recipeRepoManager
+                ? $this->recipeRepoManager->getRecipe(Utils::getPackage($operation), $operation->getJobType())
+                : null;
 
             if (null !== $recipeMeta) {
                 $this->uninstalledPackages[$recipeMeta->getName()][] = $recipeMeta;
