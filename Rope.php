@@ -93,8 +93,9 @@ class Rope implements PluginInterface, EventSubscriberInterface
      */
     public function init(): void
     {
+
         foreach ($this->composer->getPluginManager()->getPlugins() as $plugin) {
-            if ($plugin instanceof Flex) {
+            if (FlexManipulator::isFlex($plugin)) {
                 $flexManipulator = new FlexManipulator($plugin);
 
                 if ($flexManipulator->isActivated()) {

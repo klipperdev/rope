@@ -12,6 +12,7 @@
 namespace Klipper\Rope;
 
 use Composer\DependencyResolver\Operation\OperationInterface;
+use Composer\Plugin\PluginInterface;
 use Symfony\Flex\Configurator;
 use Symfony\Flex\Configurator\AbstractConfigurator;
 use Symfony\Flex\Downloader;
@@ -66,10 +67,27 @@ class FlexManipulator
      *
      * @throws \ReflectionException
      */
-    public function __construct(Flex $flex)
+    public function __construct(PluginInterface $flex)
     {
+        if (!static::isFlex($flex)) {
+            throw new \RuntimeException(sprintf(
+                'The plugin must be an instance of "Symfony\Flex\Flex", "%s" given',
+                \get_class($flex)
+            ));
+        }
+
         $this->flex = $flex;
         $this->flexRef = new \ReflectionClass($flex);
+    }
+
+    /**
+     * @param PluginInterface $plugin The Flex plugin
+     *
+     * @return bool
+     */
+    public static function isFlex(PluginInterface $plugin)
+    {
+        return $plugin instanceof Flex || 0 === strpos(\get_class($plugin), 'Symfony\Flex\Flex_');
     }
 
     /**
