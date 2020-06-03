@@ -30,41 +30,21 @@ class FlexManipulator
     /**
      * @var Flex
      */
-    private $flex;
+    private PluginInterface $flex;
+
+    private \ReflectionClass $flexRef;
+
+    private ?Options $options = null;
+
+    private ?Lock $lock = null;
+
+    private ?Downloader $downloader = null;
+
+    private ?Configurator $configurator = null;
+
+    private ?\ReflectionClass $configuratorRef = null;
 
     /**
-     * @var \ReflectionClass
-     */
-    private $flexRef;
-
-    /**
-     * @var null|Options
-     */
-    private $options;
-
-    /**
-     * @var null|Lock
-     */
-    private $lock;
-
-    /**
-     * @var null|Downloader
-     */
-    private $downloader;
-
-    /**
-     * @var null|Configurator
-     */
-    private $configurator;
-
-    /**
-     * @var null|\ReflectionClass
-     */
-    private $configuratorRef;
-
-    /**
-     * FlexManipulator constructor.
-     *
      * @throws \ReflectionException
      */
     public function __construct(PluginInterface $flex)

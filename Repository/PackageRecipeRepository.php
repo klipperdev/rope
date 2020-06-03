@@ -29,49 +29,23 @@ use Symfony\Flex\Recipe;
  */
 class PackageRecipeRepository extends AbstractRecipeRepository
 {
-    /**
-     * @var PackageInterface
-     */
-    private $package;
+    private PackageInterface $package;
+
+    private string $repo;
+
+    private string $branch;
+
+    private Options $options;
+
+    private string $basePath;
+
+    private VersionParser $versionParser;
+
+    private array $cacheVersions = [];
+
+    private array $cacheMap = [];
 
     /**
-     * @var string
-     */
-    private $repo;
-
-    /**
-     * @var string
-     */
-    private $branch;
-
-    /**
-     * @var Options
-     */
-    private $options;
-
-    /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
-     * @var VersionParser
-     */
-    private $versionParser;
-
-    /**
-     * @var array
-     */
-    private $cacheVersions = [];
-
-    /**
-     * @var array
-     */
-    private $cacheMap = [];
-
-    /**
-     * Constructor.
-     *
      * @param Composer         $composer The composer
      * @param PackageInterface $package  The package
      * @param Options          $options  The flex options
@@ -100,25 +74,16 @@ class PackageRecipeRepository extends AbstractRecipeRepository
         $this->branch = Utils::getRecipeBranch($package);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->package->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function has(PackageInterface $package): bool
     {
         return null !== $this->findRecipePath($package);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(PackageInterface $package, string $job): ?RecipeMeta
     {
         $recipe = null;
@@ -134,9 +99,6 @@ class PackageRecipeRepository extends AbstractRecipeRepository
         return $recipe;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRepoOrigin(PackageInterface $package): string
     {
         return $this->repo.':'.$this->branch;
@@ -240,7 +202,7 @@ class PackageRecipeRepository extends AbstractRecipeRepository
      * @param array  $data       The recipe data
      * @param string $recipePath The path of recipe
      */
-    protected function findFiles(array $data, $recipePath): array
+    protected function findFiles(array $data, string $recipePath): array
     {
         $manifest = $data['manifest'];
 
@@ -271,7 +233,7 @@ class PackageRecipeRepository extends AbstractRecipeRepository
      *
      * @return array The files
      */
-    protected function findDir($source, $target, array $files): array
+    protected function findDir(string $source, string $target, array $files): array
     {
         $dirIterator = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new \RecursiveIteratorIterator($dirIterator);
@@ -296,7 +258,7 @@ class PackageRecipeRepository extends AbstractRecipeRepository
      *
      * @return array The files
      */
-    protected function findFile($source, $target, array $files): array
+    protected function findFile(string $source, string $target, array $files): array
     {
         $files[$target] = [
             'contents' => file_get_contents($source),

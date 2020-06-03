@@ -36,34 +36,16 @@ use Symfony\Flex\Flex;
  */
 class Rope implements PluginInterface, EventSubscriberInterface
 {
-    /**
-     * @var Composer
-     */
-    private $composer;
+    private ?Composer $composer = null;
 
-    /**
-     * @var IOInterface
-     */
-    private $io;
+    private ?IOInterface $io = null;
 
-    /**
-     * @var FlexManipulator
-     */
-    private $flexManipulator;
+    private ?FlexManipulator $flexManipulator = null;
 
-    /**
-     * @var RecipeRepositoryManager
-     */
-    private $recipeRepoManager;
+    private ?RecipeRepositoryManager $recipeRepoManager = null;
 
-    /**
-     * @var array
-     */
-    private $uninstalledPackages = [];
+    private array $uninstalledPackages = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -85,8 +67,6 @@ class Rope implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \ReflectionException
      */
     public function activate(Composer $composer, IOInterface $io): void

@@ -22,19 +22,11 @@ use Symfony\Flex\SymfonyBundle;
  */
 abstract class AbstractRecipeRepository implements RecipeRepositoryInterface
 {
-    /**
-     * @var Composer
-     */
-    protected $composer;
+    protected Composer $composer;
+
+    private ?array $devPackages = null;
 
     /**
-     * @var null|array
-     */
-    private $devPackages;
-
-    /**
-     * Constructor.
-     *
      * @param Composer $composer The composer
      */
     public function __construct(Composer $composer)

@@ -34,7 +34,7 @@ abstract class Utils
      *
      * @return mixed
      */
-    public static function getValue(\ReflectionClass $ref, $object, string $property, string $instanceOf = null)
+    public static function getValue(\ReflectionClass $ref, object $object, string $property, ?string $instanceOf = null)
     {
         $propertyRef = $ref->getProperty($property);
         $propertyRef->setAccessible(true);
@@ -60,7 +60,7 @@ abstract class Utils
      *
      * @throws
      */
-    public static function setValue(\ReflectionClass $ref, $object, string $property, $value): void
+    public static function setValue(\ReflectionClass $ref, object $object, string $property, $value): void
     {
         $propertyRef = $ref->getProperty($property);
         $propertyRef->setAccessible(true);

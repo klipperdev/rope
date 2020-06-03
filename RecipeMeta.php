@@ -20,19 +20,11 @@ use Symfony\Flex\Recipe;
  */
 class RecipeMeta
 {
-    /**
-     * @var Recipe
-     */
-    private $recipe;
+    private Recipe $recipe;
+
+    private string $reference;
 
     /**
-     * @var string
-     */
-    private $reference;
-
-    /**
-     * Constructor.
-     *
      * @param Recipe $recipe    The recipe
      * @param string $reference The recipe reference
      */

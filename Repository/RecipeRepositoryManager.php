@@ -24,11 +24,9 @@ class RecipeRepositoryManager
     /**
      * @var RecipeRepositoryInterface[]
      */
-    private $repositories = [];
+    private array $repositories = [];
 
     /**
-     * Constructor.
-     *
      * @param RecipeRepositoryInterface[] $repositories The recipe repositories
      */
     public function __construct(array $repositories = [])

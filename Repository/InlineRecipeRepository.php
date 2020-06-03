@@ -24,17 +24,11 @@ use Symfony\Flex\Recipe;
  */
 class InlineRecipeRepository extends AbstractRecipeRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'klipper/rope-recipe-inline';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function has(PackageInterface $package): bool
     {
         $json = new JsonFile($this->getRopeFilePath($package));
@@ -42,9 +36,6 @@ class InlineRecipeRepository extends AbstractRecipeRepository
         return $json->exists();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(PackageInterface $package, string $job): ?RecipeMeta
     {
         $recipe = null;
@@ -59,9 +50,6 @@ class InlineRecipeRepository extends AbstractRecipeRepository
         return $recipe;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRepoOrigin(PackageInterface $package): string
     {
         return Utils::getRecipeRepo($package).':'.Utils::getRecipeBranch($package);
