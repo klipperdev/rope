@@ -186,8 +186,8 @@ class PackageRecipeRepository extends AbstractRecipeRepository
             $branchAliases = $package->getExtra()['branch-alias'];
 
             if (
-                (isset($branchAliases[$version]) && $alias = $branchAliases[$version]) ||
-                (isset($branchAliases['dev-master']) && $alias = $branchAliases['dev-master'])
+                (isset($branchAliases[$version]) && $alias = $branchAliases[$version])
+                || (isset($branchAliases['dev-master']) && $alias = $branchAliases['dev-master'])
             ) {
                 $version = $alias;
             }

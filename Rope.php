@@ -171,8 +171,10 @@ class Rope implements PluginInterface, EventSubscriberInterface
                     }
 
                     break;
+
                 case 'update':
                     break;
+
                 case 'uninstall':
                     $this->io->writeError(sprintf('  - Unconfiguring %s', Utils::formatOrigin($recipeMeta->getOrigin())));
                     $configurator->unconfigure($recipeMeta, $lock);
