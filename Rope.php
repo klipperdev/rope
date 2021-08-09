@@ -275,7 +275,8 @@ class Rope implements PluginInterface, EventSubscriberInterface
             return ['useFlexRecipe' => false, 'recipeMeta' => null];
         }
 
-        $recipeMeta = $this->recipeRepoManager->getRecipe($package, $operation->getJobType());
+        $operationType = method_exists($operation, 'getOperationType') ? $operation->getOperationType() : $operation->getJobType();
+        $recipeMeta = $this->recipeRepoManager->getRecipe($package, $operationType);
         $useFlexRecipe = true;
 
         if (null === $recipeMeta && isset($this->uninstalledPackages[$name])) {
