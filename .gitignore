@@ -1,6 +1,7 @@
 /.env
 /.env.dist
-/.php_cs.cache
+/.php-cs-fixer.cache
 /bin/
+/composer.lock
 /symfony.lock
 /vendor/
