@@ -1,6 +1,7 @@
 /.env
 /.env.dist
 /.php-cs-fixer.cache
+/.phpunit.result.cache
 /bin/
 /composer.lock
 /symfony.lock
