@@ -27,7 +27,6 @@ use Klipper\Rope\Repository\InlineRecipeRepository;
 use Klipper\Rope\Repository\PackageRecipeRepository;
 use Klipper\Rope\Repository\RecipeRepositoryManager;
 use Symfony\Flex\Event\UpdateEvent;
-use Symfony\Flex\Flex;
 
 /**
  * Composer plugin for Klipper.
@@ -117,7 +116,7 @@ class Rope implements PluginInterface, EventSubscriberInterface
             }
 
             $recipeMeta = null !== $this->recipeRepoManager
-                ? $this->recipeRepoManager->getRecipe(Utils::getPackage($operation), $operation->getJobType())
+                ? $this->recipeRepoManager->getRecipe(Utils::getPackage($operation), $this->getOperationType($operation))
                 : null;
 
             if (null !== $recipeMeta) {
@@ -152,7 +151,6 @@ class Rope implements PluginInterface, EventSubscriberInterface
         $lock = $this->flexManipulator->getLock();
         $options = $this->flexManipulator->getOptions();
         $postInstallOutput = [];
-        $manifest = null;
 
         foreach ($recipeMetas as $recipeMeta) {
             switch ($recipeMeta->getJob()) {
@@ -177,7 +175,7 @@ class Rope implements PluginInterface, EventSubscriberInterface
 
                 case 'uninstall':
                     $this->io->writeError(sprintf('  - Unconfiguring %s', Utils::formatOrigin($recipeMeta->getOrigin())));
-                    $configurator->unconfigure($recipeMeta, $lock);
+                    $configurator->unconfigure($recipeMeta->getRecipe(), $lock);
 
                     break;
             }
@@ -275,8 +273,7 @@ class Rope implements PluginInterface, EventSubscriberInterface
             return ['useFlexRecipe' => false, 'recipeMeta' => null];
         }
 
-        $operationType = method_exists($operation, 'getOperationType') ? $operation->getOperationType() : $operation->getJobType();
-        $recipeMeta = $this->recipeRepoManager->getRecipe($package, $operationType);
+        $recipeMeta = $this->recipeRepoManager->getRecipe($package, $this->getOperationType($operation));
         $useFlexRecipe = true;
 
         if (null === $recipeMeta && isset($this->uninstalledPackages[$name])) {
@@ -334,5 +331,12 @@ class Rope implements PluginInterface, EventSubscriberInterface
                 $this->recipeRepoManager->add(new PackageRecipeRepository($this->composer, $package, $options));
             }
         }
+    }
+
+    private function getOperationType(OperationInterface $operation): string
+    {
+        return method_exists($operation, 'getOperationType')
+            ? $operation->getOperationType()
+            : $operation->getJobType();
     }
 }
