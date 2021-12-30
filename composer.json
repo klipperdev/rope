@@ -14,10 +14,10 @@
     "require": {
         "php": "^7.4.0|^8.0.0",
         "composer-plugin-api": "^1.1|^2.0",
-        "symfony/flex": "^1.2.0"
+        "symfony/flex": "^1.7.0|^2.0.0"
     },
     "require-dev": {
-        "composer/composer": "^1.6.0|^2.0.0@dev"
+        "composer/composer": "^1.6.0|^2.0.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
